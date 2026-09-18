@@ -186,8 +186,8 @@ def search_knowledge_base(query: str) -> str:
     Returns:
         Relevant information retrieved from the knowledge base
     """
-    if not KB_ID or KB_ID.startswith("<"):
-        return "Knowledge base not configured."
+    if not KB_ID or not KB_ID.strip():
+        return "Knowledge base is not configured. Please contact support for product, policy, or loyalty program questions."
 
     resp = _bedrock_runtime.retrieve(
         knowledgeBaseId=KB_ID,
@@ -318,10 +318,21 @@ async def invoke(payload, context=None):
         "Be concise and accurate."
     )
 
+    logger.info(f"Connecting to Gateway at {GATEWAY_URL}")
     try:
         gateway_client = MCPClient(lambda: streamable_http_client(GATEWAY_URL))
         with gateway_client:
-            gateway_tools = gateway_client.list_tools_sync()
+            try:
+                gateway_tools = gateway_client.list_tools_sync()
+                logger.info(f"Loaded {len(gateway_tools)} tools from Gateway")
+            except Exception as e:
+                logger.exception("Failed to load tools from Gateway")
+                return (
+                    "I'm sorry, I'm having trouble reaching our backend services "
+                    "right now (order lookups and refunds may be unavailable). "
+                    "Please try again in a moment."
+                )
+
             all_tools = tools + gateway_tools
 
             agent = Agent(
@@ -335,7 +346,7 @@ async def invoke(payload, context=None):
             return response.message["content"][0]["text"]
 
     except Exception as e:
-        logger.error(f"Agent invocation failed: {e}")
+        logger.exception("Agent invocation failed")
         return f"I'm sorry, I encountered an error processing your request: {e}"
 
 
