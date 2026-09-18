@@ -33,7 +33,7 @@ The agent is built with the [Strands Agents](https://strandsagents.com/) framewo
 
 ### Test 4 — Long-Term Memory (Two Sessions)
 ![Test 4 - Session A](screenshots/Test4_S1.png)
-![Test 4 - Session B](screenshots/test4_S2.png)
+![Test 4 - Session B](screenshots/Test4_S2.png)
 
 ### Test 5 — Loyalty Discount Calculation
 ![Test 5](screenshots/Test5.png)
