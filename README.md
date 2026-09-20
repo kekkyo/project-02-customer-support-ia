@@ -1,5 +1,6 @@
 # Customer Support AI Agent — Amazon Bedrock AgentCore
 
+## What this project does
 An intelligent customer support assistant for an e-commerce platform, built on **Amazon Bedrock AgentCore**. The agent handles multi-step customer support workflows — order tracking, refund processing, product recommendations, and loyalty reward calculations — while maintaining conversational context across sessions.
 
 This project was built as part of Udacity's AI Agents with AWS course, and integrates the core AgentCore capabilities: agent runtime deployment, tool integration via Gateway, retrieval-augmented generation (RAG), persistent memory, sandboxed code execution, and web browsing.
